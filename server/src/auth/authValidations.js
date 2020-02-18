@@ -100,6 +100,7 @@ const userRegistration = [
   cityCheck,
   countryCheck,
   emailCheck,
+  phoneNumberCheck,
   passwordCheck,
   passwordConfirmationCheck,
   validate
