@@ -1,11 +1,11 @@
-const User = require("./User");
-const authQueries = require("./authQueries");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const User = require('./User');
+const authQueries = require('./authQueries');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const registerUser = async (
   knex,
-  { username, name, age, address, city, country, email, phoneNumber, password }
+  { username, name, address, city, country, email, phoneNumber, password }
 ) => {
   const saltRounds = 4;
   const hash = await bcrypt.hash(password, saltRounds);
@@ -13,7 +13,6 @@ const registerUser = async (
   const userRegistered = !!(await authQueries.insertUser(knex, {
     username,
     name,
-    age,
     address,
     city,
     country,
@@ -23,7 +22,7 @@ const registerUser = async (
   }));
 
   if (!userRegistered) {
-    throw new Error("Registration failed.");
+    throw new Error('Registration failed.');
   }
 
   return userRegistered;
@@ -41,7 +40,7 @@ const authenticateFromCredentials = async (
   const match = userData && (await bcrypt.compare(password, userData.password));
 
   if (!match) {
-    throw new Error("Authentication failed.");
+    throw new Error('Authentication failed.');
   }
 
   const user = new User(userData);
@@ -55,7 +54,7 @@ const authenticateFromPayload = async (knex, payload) => {
   const userData = await authQueries.getUserById(knex, id);
 
   if (!userData) {
-    throw new Error("Authentication failed.");
+    throw new Error('Authentication failed.');
   }
 
   const user = new User(userData);
