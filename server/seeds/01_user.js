@@ -5,12 +5,11 @@ const seed = async knex => {
     {
       username: 'root',
       name: 'root',
-      phoneNumber: "12312321",
-      age: '00',
-      streetAddress: 'kotkantie 1',
+      address: 'kotkantie 1',
       city: 'oulu',
       country: 'Fi',
       email: 'root@lmao.lol',
+      phoneNumber: '1231231233',
       password: '111111'
     }
   ];
@@ -20,12 +19,11 @@ const seed = async knex => {
       authServices.registerUser(knex, {
         username: `user${number}`,
         name: `user${number}`,
-        phoneNumber: `user${number}`,
-        age: `user${number}`,
-        streetAddress: `user${number}`,
+        address: `user${number}`,
         city: `user${number}`,
         country: `user${number}`,
         email: `user${number}@lmao.lol`,
+        phoneNumber: `user${number}`,
         password: '111111'
       });
   });
