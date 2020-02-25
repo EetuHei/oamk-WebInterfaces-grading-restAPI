@@ -2,46 +2,46 @@ const Post = require('./Post');
 const postQueries = require('./postQueries');
 
 const getPosts = async knex => {
-  const postsData = await postQueries.getPosts;
+  const getPostsData = await postQueries.getPosts();
 
-  const posts = postsData;
+  const posts = getPostsData;
 
   return posts;
 };
 
 const postItem = async (
   knex,
-  {
-    title,
-    description,
-    category,
-    country,
-    city,
-    images,
-    price,
-    date,
-    delivery,
-    contactInfo
-  }
+  { title, description, category, city, country, images, price, date, delivery }
 ) => {
-  const createPost = !!(await postQueries.insertPost(knex, {
-    title,
-    description,
-    category,
-    country,
-    city,
-    images,
-    price,
-    date,
-    delivery,
-    contactInfo
-  }));
+  const postData = await knex.transaction(async trx => {
+    const postId = await postQueries.insertPost(trx, {
+      title,
+      description,
+      category,
+      city,
+      country,
+      images,
+      price,
+      date,
+      delivery
+    });
 
-  if (!createPost) {
-    throw new Error('Could not create the post.');
+    if (!postId) {
+      throw new Error('Team could not be created.');
+    }
+
+    const postData = await postQueries.getPostById(trx, postId);
+
+    return postData;
+  });
+
+  if (!postData) {
+    throw new Error('Team data could not be retrieved.');
   }
 
-  return createPost;
+  const post = new Post(postData);
+
+  return post;
 };
 
-module.exports = { postItem };
+module.exports = { postItem, getPosts };
