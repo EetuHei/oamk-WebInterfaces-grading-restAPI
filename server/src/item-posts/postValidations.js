@@ -98,4 +98,4 @@ const createPost = [
   validate
 ];
 
-module.exports = { usernameCheck, createPost };
+module.exports = { createPost };
