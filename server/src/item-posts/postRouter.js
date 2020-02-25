@@ -1,12 +1,15 @@
 const { Router } = require('express');
-
+const passport = require('../config/passport/passport');
+const postValidations = require('./postValidations');
+const postServices = require('./postServices');
+const postQueries = require('./postQueries');
 const postRouter = new Router();
 
 const getPosts = async (req, res, next) => {
   const { knex, getPostsData } = req.context;
 
   try {
-    const posts = await postServices.getPosts(knex, getPostsData);
+    const posts = await postQueries.getPosts(knex, getPostsData);
 
     return res.data(200, { posts });
   } catch (e) {
@@ -30,6 +33,12 @@ const postItem = async (req, res, next) => {
   }
 };
 
-postRouter.post('/posts', postValidations.createPost, postItem);
+postRouter.post(
+  '/create-post',
+  passport.authenticate('jwt', { session: false }),
+  postValidations.createPost,
+  postItem
+);
+postRouter.get('/all-posts', getPosts);
 
 module.exports = postRouter;
