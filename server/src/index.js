@@ -4,13 +4,10 @@ const httpError = require('http-errors');
 const knex = require('./config/database/knex');
 const authRouter = require('./auth/authRouter');
 const passport = require('./config/passport/passport');
-const morgan = require('morgan');
 const { commonResponse, context } = require('./config/utils');
 
 const app = express();
 const port = 8080;
-
-app.use(morgan('short'));
 
 app.use([
   cors(),
