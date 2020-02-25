@@ -11,6 +11,22 @@ const usernameCheck = body(
   .isLength({ min: 2, max: 20 })
   .trim();
 
+const emailCheck = body('email', 'Email is not valid.')
+  .isEmail()
+  .normalizeEmail();
+
+const passwordCheck = body(
+  'password',
+  'Password should be at least 6 characters.'
+).isLength({ min: 6 });
+
+const passwordConfirmationCheck = body(
+  'passwordConfirmation',
+  'Password confirmation does not match password.'
+).custom(
+  (passwordConfirmation, { req }) => passwordConfirmation === req.body.password
+);
+
 const nameCheck = body('name', 'First name and family name is required')
   .not()
   .isEmpty()
@@ -36,28 +52,15 @@ const countryCheck = body(
   .isLength({ min: 2, max: 4 })
   .trim();
 
-const emailCheck = body('email', 'Email is not valid.')
-  .isEmail()
-  .normalizeEmail();
-
-const phoneNumberCheck = body('phoneNumber', 'Phone number is required and has to be 10 characters long.')
+const phoneNumberCheck = body(
+  'phoneNumber',
+  'Phone number is required and has to be 10 characters long.'
+)
   .trim()
   .not()
   .isEmpty()
   .isLength({ min: 10, max: 10 })
   .trim();
-
-const passwordCheck = body(
-  'password',
-  'Password should be at least 6 characters.'
-).isLength({ min: 6 });
-
-const passwordConfirmationCheck = body(
-  'passwordConfirmation',
-  'Password confirmation does not match password.'
-).custom(
-  (passwordConfirmation, { req }) => passwordConfirmation === req.body.password
-);
 
 const validate = (req, res, next) => {
   const errors = validationResult(req).formatWith(({ msg }) => msg);
@@ -68,40 +71,39 @@ const validate = (req, res, next) => {
 
   const {
     username,
+    email,
+    password,
     name,
     address,
     city,
     country,
-    email,
-    phoneNumber,
-    password,
-    passwordConfirmation
+    phoneNumber
   } = req.body;
 
   req.context.userRegistrationData = {
     username,
+    email,
+    password,
     name,
     address,
     city,
     country,
-    email,
-    phoneNumber,
-    password,
-    passwordConfirmation
+    phoneNumber
   };
+
   next();
 };
 
 const userRegistration = [
   usernameCheck,
+  emailCheck,
+  passwordCheck,
+  passwordConfirmationCheck,
   nameCheck,
   addressCheck,
   cityCheck,
   countryCheck,
-  emailCheck,
   phoneNumberCheck,
-  passwordCheck,
-  passwordConfirmationCheck,
   validate
 ];
 

@@ -3,22 +3,25 @@ const getUserById = (knex, id) =>
     .where({ id })
     .first();
 
-    const getUserByUsernameOrEmail = (knex, usernameOrEmail) =>
-    knex('user')
-      .where({ username: usernameOrEmail })
-      .orWhere({ email: usernameOrEmail })
-      .first();
+const getUserByUsernameOrEmail = (knex, usernameOrEmail) =>
+  knex('user')
+    .where({ username: usernameOrEmail })
+    .orWhere({ email: usernameOrEmail })
+    .first();
 
 const insertUser = (
-  knex, { username, name, address, city, country, email, phoneNumber, password }) =>
-    knex('user').insert({
-        username,
-        name,
-        address,
-        city,
-        country,
-        email,
-        phoneNumber,
-        password });
+  knex,
+  { username, email, password, name, address, city, country, phoneNumber }
+) =>
+  knex('user').insert({
+    username,
+    email,
+    password,
+    name,
+    address,
+    city,
+    country,
+    phoneNumber
+  });
 
 module.exports = { getUserById, getUserByUsernameOrEmail, insertUser };

@@ -11,7 +11,7 @@ const localStrategy = new LocalStrategy(
 
     try {
       const user = await authServices.authenticateFromCredentials(knex, {
-        username,
+        usernameOrEmail: username,
         password
       });
       return done(null, user);
