@@ -3,22 +3,13 @@ const getPostById = (knex, id) =>
     .where({ id })
     .first();
 
-const getPosts = knex => knex.from('post');
+const getPosts = knex => {
+  return knex.from('post').select('*');
+};
 
 const insertPost = (
   knex,
-  {
-    title,
-    description,
-    category,
-    country,
-    city,
-    images,
-    price,
-    date,
-    delivery,
-    contactInfo
-  }
+  { title, description, category, country, city, images, price, date, delivery }
 ) =>
   knex
     .insert({
@@ -30,7 +21,8 @@ const insertPost = (
       images,
       price,
       date,
-      delivery,
-      contactInfo
+      delivery
     })
     .into('post');
+
+module.exports = { insertPost, getPostById, getPosts };
