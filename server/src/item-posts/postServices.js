@@ -11,7 +11,18 @@ const getPosts = async knex => {
 
 const postItem = async (
   knex,
-  { itemOwnerId, title, description, category, city, country, images, price, date, delivery }
+  {
+    itemOwnerId,
+    title,
+    description,
+    category,
+    city,
+    country,
+    images,
+    price,
+    date,
+    delivery
+  }
 ) => {
   const postData = await knex.transaction(async trx => {
     const postId = await postQueries.insertPost(trx, {
@@ -28,7 +39,7 @@ const postItem = async (
     });
 
     if (!postId) {
-      throw new Error('Team could not be created.');
+      throw new Error('Post could not be created.');
     }
 
     const postData = await postQueries.getPostById(trx, postId);
@@ -37,7 +48,7 @@ const postItem = async (
   });
 
   if (!postData) {
-    throw new Error('Team data could not be retrieved.');
+    throw new Error('Post data could not be retrieved.');
   }
 
   const post = new Post(postData);
