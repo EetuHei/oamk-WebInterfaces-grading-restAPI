@@ -6,7 +6,7 @@ const authServices = require('../../../auth/authServices');
 const jwtStrategy = new JwtStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: 'potato', //process.env.PASSPORT_SECRET
+    secretOrKey: 'potato',
     passReqToCallback: true
   },
   async (req, payload, done) => {

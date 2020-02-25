@@ -5,18 +5,18 @@ const jwt = require('jsonwebtoken');
 
 const registerUser = async (
   knex,
-  { username, name, address, city, country, email, phoneNumber, password }
+  { username, email, password, name, address, city, country, phoneNumber }
 ) => {
   const saltRounds = 4;
   const hash = await bcrypt.hash(password, saltRounds);
 
   const userRegistered = !!(await authQueries.insertUser(knex, {
     username,
+    email,
     name,
     address,
     city,
     country,
-    email,
     phoneNumber,
     password: hash
   }));
@@ -63,7 +63,7 @@ const authenticateFromPayload = async (knex, payload) => {
 };
 
 const signAccessToken = id => {
-  const accessToken = jwt.sign({ id }, process.env.PASSPORT_SECRET);
+  const accessToken = jwt.sign({ id }, 'potato');
   return accessToken;
 };
 

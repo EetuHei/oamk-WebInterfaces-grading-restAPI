@@ -1,9 +1,9 @@
-const { Router } = require("express");
-const passport = require("../config/passport/passport");
-const httpErrors = require("http-errors");
-const authServices = require("./authServices");
-const authValidations = require("./authValidations");
-const { validate } = require("../config/utils");
+const { Router } = require('express');
+const passport = require('../config/passport/passport');
+const httpErrors = require('http-errors');
+const authServices = require('./authServices');
+const authValidations = require('./authValidations');
+const { validate } = require('../config/utils');
 
 const authRouter = new Router();
 
@@ -16,9 +16,9 @@ const registerUser = async (req, res, next) => {
       userRegistrationData
     );
 
-    return res.json({ username: userRegistrationData.username });
+    return res.data();
   } catch (e) {
-    if (e.code === "ER_DUP_ENTRY") {
+    if (e.code === 'ER_DUP_ENTRY') {
       const forbiddenError = httpErrors(
         403,
         `User '${userRegistrationData.username}' already exists`
@@ -34,10 +34,10 @@ const getAccessToken = (req, res, next) => {
   return res.data(null, { accessToken });
 };
 
-authRouter.post("/register", authValidations.userRegistration, registerUser);
+authRouter.post('/register', authValidations.userRegistration, registerUser);
 authRouter.post(
-  "/token",
-  passport.authenticate("local", { session: false }),
+  '/token',
+  passport.authenticate('local', { session: false }),
   getAccessToken
 );
 
