@@ -67,11 +67,11 @@ const validate = (req, res, next) => {
     images,
     price,
     date,
-    delivery,
-    contactInfo
+    delivery
   } = req.body;
-
+  const itemOwnerId = req.user.id;
   req.context.postData = {
+    itemOwnerId,
     title,
     description,
     category,
@@ -80,8 +80,7 @@ const validate = (req, res, next) => {
     images,
     price,
     date,
-    delivery,
-    contactInfo
+    delivery
   };
   next();
 };
@@ -95,7 +94,36 @@ const createPost = [
   priceCheck,
   dateCheck,
   deliveryCheck,
-  validate
+  validate,
+  (req, res, next) => {
+    const {
+      title,
+      description,
+      category,
+      country,
+      city,
+      images,
+      price,
+      date,
+      delivery
+    } = req.body;
+    const itemOwnerId = req.user.id;
+
+    req.context.itemPostData = {
+      itemOwnerId,
+      title,
+      description,
+      category,
+      country,
+      city,
+      images,
+      price,
+      date,
+      delivery
+    };
+
+    return next();
+  }
 ];
 
 module.exports = { createPost };

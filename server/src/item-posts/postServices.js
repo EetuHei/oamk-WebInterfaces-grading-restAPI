@@ -11,10 +11,11 @@ const getPosts = async knex => {
 
 const postItem = async (
   knex,
-  { title, description, category, city, country, images, price, date, delivery }
+  { itemOwnerId, title, description, category, city, country, images, price, date, delivery }
 ) => {
   const postData = await knex.transaction(async trx => {
     const postId = await postQueries.insertPost(trx, {
+      itemOwnerId,
       title,
       description,
       category,

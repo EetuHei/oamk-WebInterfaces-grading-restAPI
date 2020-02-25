@@ -1,6 +1,7 @@
 class Post {
   constructor({
     id,
+    itemOwnerId,
     title,
     description,
     category,
@@ -13,6 +14,7 @@ class Post {
     contactInfo
   }) {
     this.id = id;
+    this.itemOwnerId = itemOwnerId;
     this.title = title;
     this.description = description;
     this.category = category;

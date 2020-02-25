@@ -9,10 +9,22 @@ const getPosts = knex => {
 
 const insertPost = (
   knex,
-  { title, description, category, country, city, images, price, date, delivery }
+  {
+    itemOwnerId,
+    title,
+    description,
+    category,
+    country,
+    city,
+    images,
+    price,
+    date,
+    delivery
+  }
 ) =>
   knex
     .insert({
+      itemOwnerId,
       title,
       description,
       category,
