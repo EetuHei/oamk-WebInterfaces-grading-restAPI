@@ -77,6 +77,23 @@ const editPostImage = async (knex, { id, itemOwnerId, images }) => {
   return updatePostImage;
 };
 
+const deletePost = async (knex, { id, itemOwnerId }) => {
+  const updatedPostData = await knex.transaction(async trx => {
+    const postData = await postQueries.getPostById(trx, id);
+
+    if (postData.itemOwnerId !== itemOwnerId) {
+      const error = new Error('The post does not belong to the user.');
+      error.name = 'ForbiddenPost';
+      throw error;
+    }
+
+    await postQueries.deletePost(trx, {
+      id
+    });
+  });
+  return updatedPostData;
+};
+
 const editPost = async (
   knex,
   {
@@ -121,4 +138,4 @@ const editPost = async (
   return updatedPostData;
 };
 
-module.exports = { postItem, getPosts, editPost, editPostImage };
+module.exports = { postItem, getPosts, editPost, editPostImage, deletePost };
