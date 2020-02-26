@@ -37,4 +37,46 @@ const insertPost = (
     })
     .into('post');
 
-module.exports = { insertPost, getPostById, getPosts };
+const updatePostImage = (knex, { id, images }) =>
+  knex
+    .table('post')
+    .where({ id })
+    .update({ images });
+
+const updatePostData = (
+  knex,
+  {
+    id,
+    title,
+    description,
+    category,
+    city,
+    country,
+    images,
+    price,
+    date,
+    delivery
+  }
+) =>
+  knex
+    .table('post')
+    .where({ id })
+    .update({
+      title,
+      description,
+      category,
+      city,
+      country,
+      images,
+      price,
+      date,
+      delivery
+    });
+
+module.exports = {
+  insertPost,
+  getPostById,
+  getPosts,
+  updatePostData,
+  updatePostImage
+};
