@@ -16,7 +16,7 @@ const registerUser = async (req, res, next) => {
       userRegistrationData
     );
 
-    return res.data();
+    return res.json({ data: 'User registered.' });
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') {
       const forbiddenError = httpErrors(
