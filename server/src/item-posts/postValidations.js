@@ -143,6 +143,20 @@ const imageUploadData = [
   }
 ];
 
+const postDelete = [
+  validate,
+  (req, res, next) => {
+    const id = req.params.id;
+    const itemOwnerId = req.user.id;
+
+    req.context.deletePostData = {
+      id: Number(id),
+      itemOwnerId: itemOwnerId
+    };
+    return next();
+  }
+];
+
 const postUpdate = [
   titleCheck,
   descriptionCheck,
@@ -186,4 +200,4 @@ const postUpdate = [
   }
 ];
 
-module.exports = { createPost, postUpdate, imageUploadData };
+module.exports = { createPost, postUpdate, imageUploadData, postDelete };
