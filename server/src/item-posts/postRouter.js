@@ -18,12 +18,13 @@ const getPosts = async (req, res, next) => {
 };
 
 const postItem = async (req, res, next) => {
-  const { knex, postData } = req.context;
+  const { knex, postData, addImage } = req.context;
 
   try {
     const post = await postServices.postItem(knex, postData);
+    const image = await postServices.addImage(knex, addImage);
 
-    return res.data(201, { post });
+    return res.data(201, { post, image });
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') {
       const forbiddenError = httpErrors(403, 'Post already exists');
