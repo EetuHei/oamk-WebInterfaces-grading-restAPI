@@ -126,4 +126,64 @@ const createPost = [
   }
 ];
 
-module.exports = { createPost };
+const imageUploadData = [
+  validate,
+  (req, res, next) => {
+    const { images } = req.body;
+    const id = req.params.id;
+    const itemOwnerId = req.user.id;
+
+    req.context.addImagesData = {
+      id: Number(id),
+      itemOwnerId: itemOwnerId,
+      images
+    };
+
+    return next();
+  }
+];
+
+const postUpdate = [
+  titleCheck,
+  descriptionCheck,
+  categoryCheck,
+  cityCheck,
+  countryCheck,
+  priceCheck,
+  dateCheck,
+  deliveryCheck,
+  validate,
+  (req, res, next) => {
+    const {
+      title,
+      description,
+      category,
+      country,
+      city,
+      images,
+      price,
+      date,
+      delivery
+    } = req.body;
+    const id = req.params.id;
+    const itemOwnerId = req.user.id;
+
+    req.context.editPostData = {
+      id: Number(id),
+      itemOwnerId: itemOwnerId,
+      title,
+      description,
+      category,
+      country,
+      city,
+      images,
+      price,
+      date,
+      delivery
+    };
+
+    return next();
+  }
+];
+
+module.exports = { createPost, postUpdate, imageUploadData };
