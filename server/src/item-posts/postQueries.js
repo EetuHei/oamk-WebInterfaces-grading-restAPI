@@ -1,10 +1,28 @@
 const getPostById = (knex, id) =>
-  knex('post')
-    .where({ id })
-    .first();
+knex('post')
+.where({ id })
+.first();
 
 const getPosts = knex => {
-  return knex.from('post').select('*');
+  return knex
+    .select(
+      'post.id',
+      'post.itemOwnerId',
+      'post.title',
+      'post.description',
+      'post.category',
+      'post.city',
+      'post.country',
+      'post.images',
+      'post.price',
+      'post.date',
+      'post.delivery',
+      'user.name',
+      'user.email',
+      'user.phoneNumber'
+    )
+    .from('post')
+    .join('user', 'user.id', '=', 'post.itemOwnerId');
 };
 
 const insertPost = (
@@ -77,10 +95,6 @@ const deletePost = (knex, id) => {
   const query = knex.raw(`DELETE FROM post WHERE id = ${id.id}`);
   return query;
 };
-//   knex('post')
-//     .where({ id: id.id })
-//     .del();
-// };
 
 module.exports = {
   insertPost,
