@@ -1,8 +1,5 @@
 const Post = require('./Post');
 const postQueries = require('./postQueries');
-const multer = require('multer');
-const upload = multer({ dest: '../uploads' });
-const fs = require('fs');
 
 const getPosts = async knex => {
   const getPostsData = await postQueries.getPosts();
@@ -10,43 +7,6 @@ const getPosts = async knex => {
   const posts = getPostsData;
 
   return posts;
-};
-
-const addImage = () => {
-  postRouter.put(
-    '/add-image/:id',
-    addImage,
-    upload.array('img', 4),
-    (req, res) => {
-      const images = req.files;
-
-      images.forEach(img => {
-        fs.rename(img.path, `./uploads/${img.originalname}`, err => {
-          if (err) throw err;
-          console.log('renamed images');
-        });
-      });
-
-      images.img = images;
-
-      images
-        .save()
-        .then(images =>
-          res.status(200).json({
-            images,
-            status: 'Images added',
-            success: true
-          })
-        )
-        .catch(err => {
-          console.log(err);
-          res.status(401).json({
-            status: 'Unauthorized',
-            success: false
-          });
-        });
-    }
-  );
 };
 
 const postItem = async (
@@ -96,4 +56,69 @@ const postItem = async (
   return post;
 };
 
-module.exports = { postItem, getPosts, addImage };
+const editPostImage = async (knex, { id, itemOwnerId, images }) => {
+  const updatePostImage = await knex.transaction(async trx => {
+    const postData = await postQueries.getPostById(trx, id);
+
+    if (postData.itemOwnerId !== itemOwnerId) {
+      const error = new Error('The post does not belong to the user.');
+      error.name = 'ForbiddenPost';
+      throw error;
+    }
+
+    await postQueries.updatePostImage(trx, {
+      id,
+      images
+    });
+    const updatedPostData = await postQueries.getPostById(trx, id);
+
+    return updatedPostData;
+  });
+  return updatePostImage;
+};
+
+const editPost = async (
+  knex,
+  {
+    id,
+    itemOwnerId,
+    title,
+    description,
+    city,
+    country,
+    images,
+    price,
+    date,
+    delivery
+  }
+) => {
+  const updatedPostData = await knex.transaction(async trx => {
+    const postData = await postQueries.getPostById(trx, id);
+
+    if (postData.itemOwnerId !== itemOwnerId) {
+      const error = new Error('The post does not belong to the user.');
+      error.name = 'ForbiddenPost';
+      throw error;
+    }
+
+    await postQueries.updatePostData(trx, {
+      id,
+      title,
+      description,
+      city,
+      country,
+      images,
+      price,
+      date,
+      delivery
+    });
+
+    const updatedPostData = await postQueries.getPostById(trx, id);
+
+    return updatedPostData;
+  });
+
+  return updatedPostData;
+};
+
+module.exports = { postItem, getPosts, editPost, editPostImage };
