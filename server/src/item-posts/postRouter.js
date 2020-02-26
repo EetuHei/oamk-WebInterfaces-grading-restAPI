@@ -87,6 +87,24 @@ postRouter.put(
   ]
 );
 
+postRouter.delete(
+  '/delete-post/:id',
+  passport.authenticate('jwt', { session: false }),
+  [
+    postValidations.postDelete,
+    async (req, res, next) => {
+      const { knex, deletePostData } = req.context;
+
+      try {
+        const data = await postServices.deletePost(knex, deletePostData);
+        return res.data(null, { data });
+      } catch (e) {
+        throw e;
+      }
+    }
+  ]
+);
+
 postRouter.get('/all-posts', getPosts);
 
 module.exports = postRouter;
