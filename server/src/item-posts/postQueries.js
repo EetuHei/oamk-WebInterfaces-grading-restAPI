@@ -73,10 +73,20 @@ const updatePostData = (
       delivery
     });
 
+const deletePost = (knex, id) => {
+  const query = knex.raw(`DELETE FROM post WHERE id = ${id.id}`);
+  return query;
+};
+//   knex('post')
+//     .where({ id: id.id })
+//     .del();
+// };
+
 module.exports = {
   insertPost,
   getPostById,
   getPosts,
   updatePostData,
-  updatePostImage
+  updatePostImage,
+  deletePost
 };
