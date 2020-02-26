@@ -21,6 +21,8 @@ app.use([
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/posts', postRouter);
 
+app.use(express.static(__dirname + '/uploads'));
+
 app.use((err, req, res, next) => {
   console.error(err);
 
