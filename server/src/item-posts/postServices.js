@@ -9,6 +9,10 @@ const getPosts = async knex => {
   return posts;
 };
 
+const addImage = () => {
+  return 'asd';
+};
+
 const postItem = async (
   knex,
   {
@@ -56,4 +60,4 @@ const postItem = async (
   return post;
 };
 
-module.exports = { postItem, getPosts };
+module.exports = { postItem, getPosts, addImage };
