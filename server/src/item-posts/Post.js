@@ -20,7 +20,7 @@ class Post {
     this.category = category;
     this.country = country;
     this.city = city;
-    this.images = images;
+    this.images = [];
     this.price = price;
     this.date = date;
     this.delivery = delivery;
