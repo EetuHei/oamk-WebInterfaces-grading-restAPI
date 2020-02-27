@@ -6,8 +6,6 @@ const postQueries = require('./postQueries');
 const multer = require('multer');
 const upload = multer({ dest: './uploads/' });
 const fs = require('fs');
-// const host = req.host;
-// const filePath = req.protocol + '://' + host + '/' + req.file.path;
 const postRouter = new Router();
 
 const getPosts = async (req, res, next) => {
@@ -15,6 +13,54 @@ const getPosts = async (req, res, next) => {
 
   try {
     const posts = await postQueries.getPosts(knex, getPostsData);
+
+    return res.data(200, { posts });
+  } catch (e) {
+    return next(e);
+  }
+};
+
+const getPostByCategory = async (req, res, next) => {
+  const { knex, getPostDataByCategory } = req.context;
+
+  try {
+    const postsByCategory = await postQueries.getPostByCategory(
+      knex,
+      getPostDataByCategory
+    );
+    const mappedDataByCategory = [];
+    postsByCategory[0].forEach(data => {
+      mappedDataByCategory.push(data);
+    });
+    return res.data(200, { mappedDataByCategory });
+  } catch (e) {
+    throw e;
+  }
+};
+
+const getPostByCity = async (req, res, next) => {
+  const { knex, getPostDataByCity } = req.context;
+
+  try {
+    const postsByCity = await postQueries.getPostByCity(
+      knex,
+      getPostDataByCity
+    );
+    const mappedDataByCity = [];
+    postsByCity[0].forEach(data => {
+      mappedDataByCity.push(data);
+    });
+    return res.data(200, { mappedDataByCity });
+  } catch (e) {
+    throw e;
+  }
+};
+
+const getPostsByDate = async (req, res, next) => {
+  const { knex, getPostsData } = req.context;
+
+  try {
+    const posts = await postQueries.getPostsByDate(knex, getPostsData);
 
     return res.data(200, { posts });
   } catch (e) {
@@ -38,6 +84,26 @@ const postItem = async (req, res, next) => {
   }
 };
 
+postRouter.post(
+  '/create-post',
+  passport.authenticate('jwt', { session: false }),
+  postValidations.createPost,
+  postItem
+);
+
+postRouter.get('/all-posts', getPosts);
+postRouter.get('/all-posts/sort-by/date', getPostsByDate);
+postRouter.get(
+  '/sort-by/category/:category',
+  postValidations.postByCategory,
+  getPostByCategory
+);
+postRouter.get(
+  '/sort-by/location/:city',
+  postValidations.postByCity,
+  getPostByCity
+);
+
 postRouter.put(
   '/add-image/:id',
   upload.array('img', 4),
@@ -53,20 +119,13 @@ postRouter.put(
         console.log('image rename success');
         try {
           const data = postServices.editPostImage(knex, addImagesData);
-          return res.data(null, { data });
+          return res.data(200, { data: 'Added images.' });
         } catch (e) {
           throw e;
         }
       });
     });
   }
-);
-
-postRouter.post(
-  '/create-post',
-  passport.authenticate('jwt', { session: false }),
-  postValidations.createPost,
-  postItem
 );
 
 postRouter.put(
@@ -97,14 +156,12 @@ postRouter.delete(
 
       try {
         const data = await postServices.deletePost(knex, deletePostData);
-        return res.data(null, { data });
+        return res.data(null, { data: 'Post deleted successfully.' });
       } catch (e) {
         throw e;
       }
     }
   ]
 );
-
-postRouter.get('/all-posts', getPosts);
 
 module.exports = postRouter;
