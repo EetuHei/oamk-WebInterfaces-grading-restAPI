@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "7a60bc58-7f7c-49cf-937f-914a7066e1b4",
+		"name": "WebInterfaces",
+		"description": "## tori API requests and testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58b07ac8-93a6-4482-936b-60ab9e357f09",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"User registered.\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.eql(\"User registered.\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\": \"epe\",\r\n\t\"name\": \"tester tester\",\r\n\t\"address\": \"kotkantie 2\",\r\n\t\"city\": \"Oulu\",\r\n\t\"country\": \"Fi\",\r\n\t\"phoneNumber\" : \"1231231233\",\r\n\t\"password\": \"123456\",\r\n\t\"passwordConfirmation\": \"123456\",\r\n\t\"email\": \"tester@test.epe\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/register/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e8deeda1-70d8-4b25-a0a6-54eff20bf4cb",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Token exists\"] = jsonData.data.accessToken !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"epe\",\n\t\"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "POST items",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0dfd1ebb-3e7a-4037-b890-cd0c8aa41d15",
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+									"});pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"post created\"] = jsonData.data.post.id !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTgyNzk5NTAwfQ.VpDUheVdKHPsU4sf-YoZXEIFPAtZN71okC2xB788paI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Audi a6\",\n\t\"description\": \"Brand new car on sale!\",\n\t\"category\": \"Car\",\n\t\"city\": \"Helsinki\",\n\t\"country\": \"Fi\",\n\t\"price\": 200,\n\t\"delivery\": \"Vain nouto\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/create-post",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"create-post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4abfc79b-2b7e-471f-bbd9-03ac8185d421",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"fetched all posts\"] = jsonData.data.posts !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/all-posts",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"all-posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET posts by category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "84eaf34c-d404-4fda-9111-3d3a49f3c466",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"fetched all posts\"] = jsonData.data.mappedDataByCategory !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/sort-by/category/car",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"sort-by",
+								"category",
+								"car"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET posts by city",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f47a505c-8635-4f24-ab60-ba177b01d153",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"fetched all posts\"] = jsonData.data.mappedDataByCity !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/sort-by/location/helsinki",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"sort-by",
+								"location",
+								"helsinki"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET posts by date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d1886768-8c14-42a2-a99a-c13897a4529b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"fetched all posts\"] = jsonData.data.posts !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/all-posts/sort-by/date",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"all-posts",
+								"sort-by",
+								"date"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT add images",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a7652727-39de-49ff-b855-2e40cc6be684",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"fetched all posts\"] = jsonData.data.data !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTgyNjYyMTgzfQ.dHl83dlJY9MiDv8RjyhhSTffrrC5NidIk3Z16yipMQI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "img",
+									"type": "file",
+									"src": [
+										"/G:/Users/eetuh/Desktop/qgtcxer8p1xy.png",
+										"/G:/Users/eetuh/Desktop/Claus2.png"
+									]
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/add-image/25",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"add-image",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT edit post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "58eb47c3-d392-436c-8536-7c2e89c53a28",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Returns edited data\"] = jsonData.data.data !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTgyNzk5NTAwfQ.VpDUheVdKHPsU4sf-YoZXEIFPAtZN71okC2xB788paI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Hsshfghah\",\n\t\"description\": \"toimiva vanha toimiko\",\n\t\"category\": \"perkele\",\n\t\"city\": \"Kuutamo\",\n\t\"country\": \"Cn\",\n\t\"price\": 500,\n\t\"delivery\": \"Pickup\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/edit-post/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"edit-post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf8297ff-ac9e-4df4-be75-0ef26ad88a95",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Returns success message\"] = jsonData.data.data !== null ;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNTgyNzk5NTAwfQ.VpDUheVdKHPsU4sf-YoZXEIFPAtZN71okC2xB788paI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/v1/posts/delete-post/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"posts",
+								"delete-post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
