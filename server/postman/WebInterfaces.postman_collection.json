@@ -408,10 +408,7 @@
 								{
 									"key": "img",
 									"type": "file",
-									"src": [
-										"/G:/Users/eetuh/Desktop/qgtcxer8p1xy.png",
-										"/G:/Users/eetuh/Desktop/Claus2.png"
-									]
+									"src": []
 								}
 							],
 							"options": {
@@ -421,7 +418,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/v1/posts/add-image/25",
+							"raw": "localhost:8080/api/v1/posts/add-image/1",
 							"host": [
 								"localhost"
 							],
@@ -431,7 +428,7 @@
 								"v1",
 								"posts",
 								"add-image",
-								"25"
+								"1"
 							]
 						}
 					},
