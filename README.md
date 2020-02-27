@@ -13,6 +13,6 @@
 #### Testing files can be found under server/postman folder.
 
 # Developed by:
-  [Eetu Heikkinen](https://github.com/EetuHei),
-  [Riku Heikkinen](https://github.com/RikuHei)
+  * [Eetu Heikkinen](https://github.com/EetuHei)
+  * [Riku Heikkinen](https://github.com/RikuHei)
   
