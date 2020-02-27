@@ -20,7 +20,6 @@ const postItem = async (
     country,
     images,
     price,
-    date,
     delivery
   }
 ) => {
@@ -34,7 +33,6 @@ const postItem = async (
       country,
       images,
       price,
-      date,
       delivery
     });
 
@@ -105,7 +103,6 @@ const editPost = async (
     country,
     images,
     price,
-    date,
     delivery
   }
 ) => {
@@ -126,7 +123,6 @@ const editPost = async (
       country,
       images,
       price,
-      date,
       delivery
     });
 
