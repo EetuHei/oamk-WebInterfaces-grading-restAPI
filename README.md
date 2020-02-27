@@ -10,4 +10,4 @@
 
 ### API documentation can be found under server folder.
 
-### Testing files can be found under server/tesing folder.
+### Testing files can be found under server/postman folder.
