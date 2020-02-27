@@ -31,8 +31,8 @@ const up = knex => {
       table.string('country', 50).notNullable();
       table.enu('images', ['imageUri']);
       table.string('price', 255).notNullable();
-      table.string('date', 50).notNullable();
       table.string('delivery', 50).notNullable();
+      table.timestamp('created_at').defaultTo(knex.fn.now());
     });
 };
 
