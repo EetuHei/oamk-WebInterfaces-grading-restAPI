@@ -15,6 +15,7 @@ const descriptionCheck = body('description', 'Description is required')
 
 const categoryCheck = body('category', 'category is required')
   .not()
+  .trim()
   .isEmpty();
 
 const cityCheck = body('city', 'City is required')
@@ -39,17 +40,10 @@ const priceCheck = body('price', 'Your post must have a price.')
   .isEmpty()
   .trim();
 
-const dateCheck = body('date', 'Your post must have a creation date.')
-  .trim()
-  .not()
-  .isEmpty()
-  .trim();
-
 const deliveryCheck = body('delivery', 'You must show delivery options.')
   .trim()
   .not()
-  .isEmpty()
-  .trim();
+  .isEmpty();
 
 const validate = (req, res, next) => {
   const errors = validationResult(req).formatWith(({ msg }) => msg);
@@ -66,7 +60,6 @@ const validate = (req, res, next) => {
     city,
     images,
     price,
-    date,
     delivery
   } = req.body;
   const itemOwnerId = req.user.id;
@@ -79,11 +72,34 @@ const validate = (req, res, next) => {
     city,
     images,
     price,
-    date,
     delivery
   };
   next();
 };
+
+const postByCategory = [
+  (req, res, next) => {
+    const category = req.params.category;
+
+    req.context.getPostDataByCategory = {
+      category: category
+    };
+
+    return next();
+  }
+];
+
+const postByCity = [
+  (req, res, next) => {
+    const city = req.params.city;
+
+    req.context.getPostDataByCity = {
+      city: city
+    };
+
+    return next();
+  }
+];
 
 const createPost = [
   titleCheck,
@@ -92,7 +108,6 @@ const createPost = [
   cityCheck,
   countryCheck,
   priceCheck,
-  dateCheck,
   deliveryCheck,
   validate,
   (req, res, next) => {
@@ -104,7 +119,6 @@ const createPost = [
       city,
       images,
       price,
-      date,
       delivery
     } = req.body;
     const itemOwnerId = req.user.id;
@@ -118,7 +132,6 @@ const createPost = [
       city,
       images,
       price,
-      date,
       delivery
     };
 
@@ -164,7 +177,6 @@ const postUpdate = [
   cityCheck,
   countryCheck,
   priceCheck,
-  dateCheck,
   deliveryCheck,
   validate,
   (req, res, next) => {
@@ -176,7 +188,6 @@ const postUpdate = [
       city,
       images,
       price,
-      date,
       delivery
     } = req.body;
     const id = req.params.id;
@@ -192,7 +203,6 @@ const postUpdate = [
       city,
       images,
       price,
-      date,
       delivery
     };
 
@@ -200,4 +210,11 @@ const postUpdate = [
   }
 ];
 
-module.exports = { createPost, postUpdate, imageUploadData, postDelete };
+module.exports = {
+  createPost,
+  postUpdate,
+  imageUploadData,
+  postDelete,
+  postByCategory,
+  postByCity
+};
