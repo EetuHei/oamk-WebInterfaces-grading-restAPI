@@ -9,7 +9,6 @@ class Post {
     city,
     images,
     price,
-    date,
     delivery,
     contactInfo
   }) {
@@ -22,7 +21,6 @@ class Post {
     this.city = city;
     this.images = images;
     this.price = price;
-    this.date = date;
     this.delivery = delivery;
     this.contactInfo = contactInfo;
   }
