@@ -1,4 +1,4 @@
-# oamk-WebInterfaces-grading-restAPI
+# Course grading restAPI
 
 ## Server & db configuration
 
