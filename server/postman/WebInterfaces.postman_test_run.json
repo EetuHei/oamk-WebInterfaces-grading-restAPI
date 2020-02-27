@@ -1,0 +1,279 @@
+{
+	"id": "101e1e38-3562-4036-8261-04ea8c081133",
+	"name": "WebInterfaces",
+	"timestamp": "2020-02-27T11:25:37.131Z",
+	"collection_id": "7a60bc58-7f7c-49cf-937f-914a7066e1b4",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 18,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "e408011b-c5f5-4287-9d12-304ddc8d2fe6",
+			"name": "Register",
+			"url": "localhost:8080/api/v1/auth/register/",
+			"time": 104,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"User registered.": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"User registered.": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				104
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"User registered.": true
+				}
+			]
+		},
+		{
+			"id": "17260753-7bf8-46b3-8a14-3113b0925a20",
+			"name": "Login",
+			"url": "localhost:8080/api/v1/auth/token",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"Token exists": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token exists": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"Token exists": true
+				}
+			]
+		},
+		{
+			"id": "3b69d845-8bee-4a21-b840-970be7824705",
+			"name": "POST items",
+			"url": "localhost:8080/api/v1/posts/create-post",
+			"time": 52,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Successful POST request": true,
+				"Response time is less than 200ms": true,
+				"post created": true
+			},
+			"testPassFailCounts": {
+				"Successful POST request": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"post created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				52
+			],
+			"allTests": [
+				{
+					"Successful POST request": true,
+					"Response time is less than 200ms": true,
+					"post created": true
+				}
+			]
+		},
+		{
+			"id": "66977f3e-30c4-4f81-952b-d920d7812b25",
+			"name": "GET posts",
+			"url": "localhost:8080/api/v1/posts/all-posts",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"fetched all posts": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"fetched all posts": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"fetched all posts": true
+				}
+			]
+		},
+		{
+			"id": "d5e10908-e9b6-4850-b444-ed8204ba3c40",
+			"name": "GET posts by category",
+			"url": "localhost:8080/api/v1/posts/sort-by/category/electronics",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"fetched all posts": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"fetched all posts": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"fetched all posts": true
+				}
+			]
+		},
+		{
+			"id": "7c11eb29-9f25-4d87-805d-1083f0a15ac9",
+			"name": "GET posts by city",
+			"url": "localhost:8080/api/v1/posts/sort-by/location/helsinki",
+			"time": 4,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response time is less than 200ms": true,
+				"fetched all posts": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response time is less than 200ms": {
+					"pass": 1,
+					"fail": 0
+				},
+				"fetched all posts": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response time is less than 200ms": true,
+					"fetched all posts": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"collection": {
+		"requests": [
+			{
+				"id": "e408011b-c5f5-4287-9d12-304ddc8d2fe6",
+				"method": "POST"
+			},
+			{
+				"id": "17260753-7bf8-46b3-8a14-3113b0925a20",
+				"method": "POST"
+			},
+			{
+				"id": "3b69d845-8bee-4a21-b840-970be7824705",
+				"method": "POST"
+			},
+			{
+				"id": "66977f3e-30c4-4f81-952b-d920d7812b25",
+				"method": "GET"
+			},
+			{
+				"id": "d5e10908-e9b6-4850-b444-ed8204ba3c40",
+				"method": "GET"
+			},
+			{
+				"id": "7c11eb29-9f25-4d87-805d-1083f0a15ac9",
+				"method": "GET"
+			},
+			{
+				"id": "74eb2868-1d36-4c26-9803-570209389194",
+				"method": "GET"
+			}
+		]
+	}
+}
