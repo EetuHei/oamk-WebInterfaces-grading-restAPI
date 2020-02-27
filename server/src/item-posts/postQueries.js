@@ -4,8 +4,92 @@ const getPostById = (knex, id) =>
     .first();
 
 const getPosts = knex => {
-  return knex.from('post').select('*');
+  return knex
+    .select(
+      'post.id',
+      'post.itemOwnerId',
+      'post.title',
+      'post.description',
+      'post.category',
+      'post.city',
+      'post.country',
+      'post.images',
+      'post.price',
+      'post.created_at',
+      'post.delivery',
+      'user.name',
+      'user.email',
+      'user.phoneNumber'
+    )
+    .from('post')
+    .join('user', 'user.id', '=', 'post.itemOwnerId');
 };
+
+const getPostByCategory = (knex, category) => {
+  const categoryToStr = JSON.stringify(category.category);
+  const query = knex.raw(
+    `SELECT 
+    post.id, 
+    post.itemOwnerId, 
+    post.title, 
+    post.description, 
+    post.category, 
+    post.city, 
+    post.country, 
+    post.images, 
+    post.price, 
+    post.delivery, 
+    post.created_at, 
+    user.name, 
+    user.email, 
+    user.phoneNumber 
+    FROM post INNER JOIN user ON user.id = post.itemOwnerId  WHERE category = ${categoryToStr}`
+  );
+  return query;
+};
+
+const getPostByCity = (knex, city) => {
+  const cityToStr = JSON.stringify(city.city);
+  const query = knex.raw(`SELECT
+  post.id, 
+  post.itemOwnerId, 
+  post.title, 
+  post.description, 
+  post.category, 
+  post.city, 
+  post.country, 
+  post.images, 
+  post.price, 
+  post.delivery, 
+  post.created_at, 
+  user.name, 
+  user.email, 
+  user.phoneNumber 
+  FROM post INNER JOIN user ON user.id = post.itemOwnerId WHERE post.city = ${cityToStr}`);
+  return query;
+};
+
+const getPostsByDate = knex =>
+  knex
+    .select(
+      'post.id',
+      'post.itemOwnerId',
+      'post.title',
+      'post.description',
+      'post.category',
+      'post.city',
+      'post.country',
+      'post.images',
+      'post.price',
+      'post.delivery',
+      'post.created_at',
+      'user.name',
+      'user.email',
+      'user.phoneNumber'
+    )
+    .from('post')
+    .join('user', 'user.id', '=', 'post.itemOwnerId')
+    .orderBy('created_at', 'desc');
 
 const insertPost = (
   knex,
@@ -18,7 +102,6 @@ const insertPost = (
     city,
     images,
     price,
-    date,
     delivery
   }
 ) =>
@@ -32,7 +115,6 @@ const insertPost = (
       city,
       images,
       price,
-      date,
       delivery
     })
     .into('post');
@@ -45,18 +127,7 @@ const updatePostImage = (knex, { id, images }) =>
 
 const updatePostData = (
   knex,
-  {
-    id,
-    title,
-    description,
-    category,
-    city,
-    country,
-    images,
-    price,
-    date,
-    delivery
-  }
+  { id, title, description, category, city, country, images, price, delivery }
 ) =>
   knex
     .table('post')
@@ -69,14 +140,22 @@ const updatePostData = (
       country,
       images,
       price,
-      date,
       delivery
     });
+
+const deletePost = (knex, id) => {
+  const query = knex.raw(`DELETE FROM post WHERE id = ${id.id}`);
+  return query;
+};
 
 module.exports = {
   insertPost,
   getPostById,
   getPosts,
   updatePostData,
-  updatePostImage
+  updatePostImage,
+  deletePost,
+  getPostByCategory,
+  getPostByCity,
+  getPostsByDate
 };
