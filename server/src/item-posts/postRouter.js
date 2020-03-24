@@ -117,14 +117,14 @@ postRouter.put(
       fs.rename(img.path, `./uploads/${img.originalname}`, err => {
         if (err) throw err;
         console.log('image rename success');
-        try {
-          const data = postServices.editPostImage(knex, addImagesData);
-          return res.data(200, { data: 'Added images.' });
-        } catch (e) {
-          throw e;
-        }
       });
     });
+    try {
+      const data = postServices.editPostImage(knex, addImagesData);
+      return res.data(200, { data: 'Added images.' });
+    } catch (e) {
+      throw e;
+    }
   }
 );
 

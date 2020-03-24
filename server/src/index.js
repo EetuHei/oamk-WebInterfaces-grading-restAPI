@@ -6,6 +6,7 @@ const authRouter = require('./auth/authRouter');
 const passport = require('./config/passport/passport');
 const { commonResponse, context } = require('./config/utils');
 const postRouter = require('./item-posts/postRouter');
+const morgan = require('morgan');
 
 const app = express();
 const port = 8080;
@@ -15,7 +16,8 @@ app.use([
   express.urlencoded({ extended: true }),
   express.json(),
   commonResponse,
-  context(knex)
+  context(knex),
+  morgan('tiny')
 ]);
 
 app.use('/api/v1/auth', authRouter);
